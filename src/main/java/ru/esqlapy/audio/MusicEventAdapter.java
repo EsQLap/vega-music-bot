@@ -20,16 +20,12 @@ public final class MusicEventAdapter extends AudioEventAdapter {
 
     public void addToQueue(@Nonnull AudioTrack track) {
         if (!this.audioPlayer.startTrack(track, true)) {
-            this.queue.offer(track);
+            queue.offer(track);
         }
     }
 
     public boolean nextTrack() {
-        AudioTrack track = this.queue.poll();
-        if (track == null) {
-            return false;
-        }
-        return this.audioPlayer.startTrack(track, false);
+        return this.audioPlayer.startTrack(queue.poll(), false);
     }
 
     public void clear() {
