@@ -8,7 +8,7 @@ import ru.esqlapy.audio.GlobalMusicManager;
 public class SkipCommandHandler extends CommandHandler {
 
     private static final String TRACK_SUCCESSFULLY_SKIPPED = "Track successfully skipped";
-    private static final String NO_TRACK_IN_QUEUE = "I can't skip track in empty queue";
+    private static final String NO_TRACK_IN_QUEUE = "No more track in the queue";
     private final GlobalMusicManager globalMusicManager = GlobalMusicManager.getInstance();
 
     public void onSkipCommand(@Nonnull Guild guild, @Nonnull IReplyCallback replyCallback) {
