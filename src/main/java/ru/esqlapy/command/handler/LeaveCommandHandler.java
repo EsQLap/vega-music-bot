@@ -2,8 +2,7 @@ package ru.esqlapy.command.handler;
 
 import jakarta.annotation.Nonnull;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.dv8tion.jda.api.managers.AudioManager;
 import ru.esqlapy.audio.GlobalMusicManager;
 
@@ -12,19 +11,10 @@ public final class LeaveCommandHandler extends CommandHandler {
     private static final String GOODBYE = "Goodbye, call me if you need";
     private final GlobalMusicManager globalMusicManager = GlobalMusicManager.getInstance();
 
-    public void onLeaveCommand(@Nonnull SlashCommandInteractionEvent event) {
-        Guild guild = event.getGuild();
-        MessageChannelUnion channel = event.getChannel();
-        if (guild == null) {
-            sendMessage(
-                    channel,
-                    WORK_ONLY_IN_CHANNEL
-            );
-            return;
-        }
+    public void onLeaveCommand(@Nonnull Guild guild, @Nonnull IReplyCallback replyCallback) {
         AudioManager manager = guild.getAudioManager();
-        globalMusicManager.clear(channel.asTextChannel());
+        globalMusicManager.clear(guild);
         manager.closeAudioConnection();
-        sendMessage(channel, GOODBYE);
+        replyCallback.reply(GOODBYE).queue();
     }
 }

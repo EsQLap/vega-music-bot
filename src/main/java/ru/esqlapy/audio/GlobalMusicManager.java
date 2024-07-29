@@ -7,7 +7,7 @@ import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBu
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
 import jakarta.annotation.Nonnull;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import ru.esqlapy.audio.source.YoutubeAudioSourceManagerProvider;
 
 import java.util.HashMap;
@@ -37,14 +37,14 @@ public final class GlobalMusicManager {
         });
     }
 
-    public void loadAndPlay(@Nonnull TextChannel textChannel, @Nonnull String trackUrl) {
-        GuildMusicManager guildMusicManager = this.getMusicManager(textChannel.getGuild());
-        MusicLoadResultHandler handler = new MusicLoadResultHandler(guildMusicManager, textChannel);
+    public void loadAndPlay(@Nonnull Guild guild, @Nonnull String trackUrl, @Nonnull IReplyCallback replyCallback) {
+        GuildMusicManager guildMusicManager = this.getMusicManager(guild);
+        MusicLoadResultHandler handler = new MusicLoadResultHandler(guildMusicManager, replyCallback);
         this.audioPlayerManager.loadItemOrdered(guildMusicManager, trackUrl, handler);
     }
 
-    public void clear(@Nonnull TextChannel textChannel) {
-        GuildMusicManager guildMusicManager = this.getMusicManager(textChannel.getGuild());
+    public void clear(@Nonnull Guild guild) {
+        GuildMusicManager guildMusicManager = this.getMusicManager(guild);
         guildMusicManager.musicEventAdapter.clear();
     }
 
