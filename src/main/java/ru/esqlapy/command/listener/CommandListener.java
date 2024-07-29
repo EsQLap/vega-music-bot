@@ -11,6 +11,7 @@ import ru.esqlapy.command.*;
 import ru.esqlapy.command.handler.ClearCommandHandler;
 import ru.esqlapy.command.handler.LeaveCommandHandler;
 import ru.esqlapy.command.handler.PlayCommandHandler;
+import ru.esqlapy.command.handler.SkipCommandHandler;
 
 import java.util.Collection;
 
@@ -24,6 +25,7 @@ public final class CommandListener extends ListenerAdapter {
     private static final String COMMAND_UNKNOWN_TEMPLATE = "Sorry, I don't know the \"%s\" command";
     private final Collection<Command> systemCommands = CommandProvider.getInstance().getSystemCommands();
     private final PlayCommandHandler playCommandHandler = new PlayCommandHandler();
+    private final SkipCommandHandler skipCommandHandler = new SkipCommandHandler();
     private final ClearCommandHandler clearCommandHandler = new ClearCommandHandler();
     private final LeaveCommandHandler leaveCommandHandler = new LeaveCommandHandler();
 
@@ -42,6 +44,7 @@ public final class CommandListener extends ListenerAdapter {
         }
         switch (command) {
             case PlayCommand playCommand -> onPlayCommandHandle(playCommand, guild, event);
+            case SkipCommand ignored -> skipCommandHandler.onSkipCommand(guild, event);
             case ClearCommand ignored -> clearCommandHandler.onClearCommand(guild, event);
             case LeaveCommand ignored -> leaveCommandHandler.onLeaveCommand(guild, event);
         }

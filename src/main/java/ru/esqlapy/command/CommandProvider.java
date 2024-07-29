@@ -13,6 +13,7 @@ public final class CommandProvider {
     private static final CommandProvider INSTANCE = new CommandProvider();
     private final Collection<Command> systemCommands = List.of(
             new PlayCommand(),
+            new SkipCommand(),
             new ClearCommand(),
             new LeaveCommand());
 

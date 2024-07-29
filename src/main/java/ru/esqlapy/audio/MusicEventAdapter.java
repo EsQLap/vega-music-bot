@@ -11,21 +11,25 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public final class MusicEventAdapter extends AudioEventAdapter {
 
-    public final AudioPlayer audioPlayer;
-    public final Queue<AudioTrack> queue = new LinkedBlockingQueue<>();
+    private final Queue<AudioTrack> queue = new LinkedBlockingQueue<>();
+    private final AudioPlayer audioPlayer;
 
     public MusicEventAdapter(@Nonnull AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
     }
 
-    public void queue(@Nonnull AudioTrack track) {
+    public void addToQueue(@Nonnull AudioTrack track) {
         if (!this.audioPlayer.startTrack(track, true)) {
             this.queue.offer(track);
         }
     }
 
-    public void nextTrack() {
-        this.audioPlayer.startTrack(this.queue.poll(), false);
+    public boolean nextTrack() {
+        AudioTrack track = this.queue.poll();
+        if (track == null) {
+            return false;
+        }
+        return this.audioPlayer.startTrack(track, false);
     }
 
     public void clear() {

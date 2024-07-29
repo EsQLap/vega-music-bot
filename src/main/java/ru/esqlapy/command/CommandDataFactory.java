@@ -20,6 +20,11 @@ public final class CommandDataFactory {
     }
 
     @Nonnull
+    private CommandData createCommandData(SkipCommand skipCommand) {
+        return Commands.slash(skipCommand.getName(), skipCommand.getDescription());
+    }
+
+    @Nonnull
     private CommandData createCommandData(ClearCommand clearCommand) {
         return Commands.slash(clearCommand.getName(), clearCommand.getDescription());
     }
@@ -33,6 +38,7 @@ public final class CommandDataFactory {
     private CommandData createCommandData(Command command) {
         return switch (command) {
             case PlayCommand playCommand -> createCommandData(playCommand);
+            case SkipCommand skipCommand -> createCommandData(skipCommand);
             case ClearCommand clearCommand -> createCommandData(clearCommand);
             case LeaveCommand leaveCommand -> createCommandData(leaveCommand);
         };

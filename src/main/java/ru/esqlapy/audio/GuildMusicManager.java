@@ -2,18 +2,34 @@ package ru.esqlapy.audio;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import jakarta.annotation.Nonnull;
 
 public final class GuildMusicManager {
 
-    public final AudioPlayer audioPlayer;
-    public final MusicEventAdapter musicEventAdapter;
-    public final MusicSendHandler sendHandler;
+    private final MusicEventAdapter musicEventAdapter;
+    private final MusicSendHandler sendHandler;
 
     public GuildMusicManager(@Nonnull AudioPlayerManager audioPlayerManager) {
-        this.audioPlayer = audioPlayerManager.createPlayer();
-        this.musicEventAdapter = new MusicEventAdapter(this.audioPlayer);
-        this.audioPlayer.addListener(musicEventAdapter);
-        this.sendHandler = new MusicSendHandler(this.audioPlayer);
+        AudioPlayer audioPlayer = audioPlayerManager.createPlayer();
+        this.musicEventAdapter = new MusicEventAdapter(audioPlayer);
+        audioPlayer.addListener(musicEventAdapter);
+        this.sendHandler = new MusicSendHandler(audioPlayer);
+    }
+
+    public void addToQueue(@Nonnull AudioTrack track) {
+        musicEventAdapter.addToQueue(track);
+    }
+
+    public boolean skipTrack() {
+        return musicEventAdapter.nextTrack();
+    }
+
+    public void clearQueue() {
+        musicEventAdapter.clear();
+    }
+
+    public MusicSendHandler getSendHandler() {
+        return sendHandler;
     }
 }

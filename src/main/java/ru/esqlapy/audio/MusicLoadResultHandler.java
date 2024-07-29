@@ -28,7 +28,7 @@ public final class MusicLoadResultHandler implements AudioLoadResultHandler {
 
     @Override
     public void trackLoaded(@Nonnull AudioTrack track) {
-        guildMusicManager.musicEventAdapter.queue(track);
+        guildMusicManager.addToQueue(track);
         sendSuccessReply(track);
     }
 
@@ -39,7 +39,7 @@ public final class MusicLoadResultHandler implements AudioLoadResultHandler {
             return;
         }
         AudioTrack track = tracks.getFirst();
-        guildMusicManager.musicEventAdapter.queue(track);
+        guildMusicManager.addToQueue(track);
         sendSuccessReply(track);
     }
 

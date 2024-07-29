@@ -29,10 +29,10 @@ public final class GlobalMusicManager {
     }
 
     @Nonnull
-    public GuildMusicManager getMusicManager(@Nonnull Guild guild) {
+    private GuildMusicManager getMusicManager(@Nonnull Guild guild) {
         return this.musicManagers.computeIfAbsent(guild.getIdLong(), guildId -> {
             GuildMusicManager guildMusicManager = new GuildMusicManager(this.audioPlayerManager);
-            guild.getAudioManager().setSendingHandler(guildMusicManager.sendHandler);
+            guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
             return guildMusicManager;
         });
     }
@@ -43,9 +43,14 @@ public final class GlobalMusicManager {
         this.audioPlayerManager.loadItemOrdered(guildMusicManager, trackUrl, handler);
     }
 
+    public boolean skip(@Nonnull Guild guild) {
+        GuildMusicManager guildMusicManager = this.getMusicManager(guild);
+        return guildMusicManager.skipTrack();
+    }
+
     public void clear(@Nonnull Guild guild) {
         GuildMusicManager guildMusicManager = this.getMusicManager(guild);
-        guildMusicManager.musicEventAdapter.clear();
+        guildMusicManager.clearQueue();
     }
 
     @Nonnull
