@@ -19,9 +19,12 @@ public final class CommandListener extends ListenerAdapter {
             Please make sure you have filled in all required fields correctly and send the command "%s" again
             """;
     private static final String OPTION_MUST_BE_OF_BOOLEAN_TYPE = "Option must be of type \"boolean\"";
-    private static final String WORK_ONLY_IN_CHANNEL = "Sorry, I can work only in channel";
+    private static final String COMMAND_WORK_ONLY_IN_CHANNEL_TEMPLATE = """
+            Sorry, the "%s" command work only in channel
+            """;
     private static final String COMMAND_UNKNOWN_TEMPLATE = "Sorry, I don't know the \"%s\" command";
     private final Collection<Command> systemCommands = CommandProvider.getInstance().getSystemCommands();
+    private final AboutCommandHandler aboutCommandHandler = new AboutCommandHandler();
     private final PlayCommandHandler playCommandHandler = new PlayCommandHandler();
     private final SkipCommandHandler skipCommandHandler = new SkipCommandHandler();
     private final LoopCommandHandler loopCommandHandler = new LoopCommandHandler();
@@ -36,12 +39,25 @@ public final class CommandListener extends ListenerAdapter {
             event.reply(COMMAND_UNKNOWN_TEMPLATE.formatted(commandName)).queue();
             return;
         }
+        switch (command) {
+            case GlobalCommand globalCommand -> onGlobalCommand(globalCommand, event);
+            case GuildCommand guildCommand -> onGuildCommand(guildCommand, event);
+        }
+    }
+
+    private void onGlobalCommand(@Nonnull GlobalCommand globalCommand, @Nonnull SlashCommandInteractionEvent event) {
+        switch (globalCommand) {
+            case AboutCommand ignored -> aboutCommandHandler.onAboutCommand(event);
+        }
+    }
+
+    private void onGuildCommand(@Nonnull GuildCommand guildCommand, @Nonnull SlashCommandInteractionEvent event) {
         Guild guild = event.getGuild();
         if (guild == null) {
-            event.reply(WORK_ONLY_IN_CHANNEL).queue();
+            event.reply(COMMAND_WORK_ONLY_IN_CHANNEL_TEMPLATE.formatted(guildCommand.getName())).queue();
             return;
         }
-        switch (command) {
+        switch (guildCommand) {
             case PlayCommand playCommand -> onPlayCommandHandle(playCommand, guild, event);
             case SkipCommand ignored -> skipCommandHandler.onSkipCommand(guild, event);
             case LoopCommand loopCommand -> onLoopCommandHandle(loopCommand, guild, event);
@@ -56,7 +72,7 @@ public final class CommandListener extends ListenerAdapter {
             @Nonnull SlashCommandInteractionEvent event) {
         Member member = event.getMember();
         if (member == null) {
-            event.reply(WORK_ONLY_IN_CHANNEL).queue();
+            event.reply(COMMAND_WORK_ONLY_IN_CHANNEL_TEMPLATE).queue();
             return;
         }
         String requestOptionName = playCommand.getContentOption().name();

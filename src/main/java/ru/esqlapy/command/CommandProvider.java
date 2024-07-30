@@ -12,6 +12,7 @@ public final class CommandProvider {
     private static final String EXCEPTION_MESSAGE = "Commands must have different names";
     private static final CommandProvider INSTANCE = new CommandProvider();
     private final Collection<Command> systemCommands = List.of(
+            new AboutCommand(),
             new PlayCommand(),
             new SkipCommand(),
             new LoopCommand(),

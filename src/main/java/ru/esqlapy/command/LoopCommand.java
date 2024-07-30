@@ -5,7 +5,7 @@ import ru.esqlapy.command.option.CommandOption;
 
 import static net.dv8tion.jda.api.interactions.commands.OptionType.BOOLEAN;
 
-public final class LoopCommand extends Command {
+public final class LoopCommand extends GuildCommand {
 
     private static final String COMMAND_NAME = "loop";
     private static final String COMMAND_DESCRIPTION = "Looping your currently playing track";

@@ -5,7 +5,7 @@ import ru.esqlapy.command.option.CommandOption;
 
 import static net.dv8tion.jda.api.interactions.commands.OptionType.STRING;
 
-public final class PlayCommand extends Command {
+public final class PlayCommand extends GuildCommand {
 
     private static final String COMMAND_NAME = "play";
     private static final String COMMAND_DESCRIPTION = "Add track to playback queue";

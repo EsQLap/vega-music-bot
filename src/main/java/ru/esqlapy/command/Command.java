@@ -2,12 +2,12 @@ package ru.esqlapy.command;
 
 import jakarta.annotation.Nonnull;
 
-public sealed abstract class Command permits PlayCommand, SkipCommand, LoopCommand, ClearCommand, LeaveCommand {
+public abstract sealed class Command permits GlobalCommand, GuildCommand {
 
     private final String name;
     private final String description;
 
-    Command(String name, String description) {
+    Command(@Nonnull String name, @Nonnull String description) {
         this.name = name;
         this.description = description;
     }
