@@ -14,6 +14,7 @@ public final class CommandProvider {
     private final Collection<Command> systemCommands = List.of(
             new PlayCommand(),
             new SkipCommand(),
+            new LoopCommand(),
             new ClearCommand(),
             new LeaveCommand());
 

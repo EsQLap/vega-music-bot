@@ -8,24 +8,23 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import ru.esqlapy.command.*;
-import ru.esqlapy.command.handler.ClearCommandHandler;
-import ru.esqlapy.command.handler.LeaveCommandHandler;
-import ru.esqlapy.command.handler.PlayCommandHandler;
-import ru.esqlapy.command.handler.SkipCommandHandler;
+import ru.esqlapy.command.handler.*;
 
 import java.util.Collection;
 
 public final class CommandListener extends ListenerAdapter {
 
-    private static final String NO_REQUEST_TEMPLATE = """
-            Sorry, I can't find the content of you request.
-            Please, make sure you filled in the field "%s" correctly and send the "%s" command again
+    private static final String NO_PARAMETERS_TEMPLATE = """
+            Sorry, I can't find the following parameters: "%s"
+            Please make sure you have filled in all required fields correctly and send the command "%s" again
             """;
+    private static final String OPTION_MUST_BE_OF_BOOLEAN_TYPE = "Option must be of type \"boolean\"";
     private static final String WORK_ONLY_IN_CHANNEL = "Sorry, I can work only in channel";
     private static final String COMMAND_UNKNOWN_TEMPLATE = "Sorry, I don't know the \"%s\" command";
     private final Collection<Command> systemCommands = CommandProvider.getInstance().getSystemCommands();
     private final PlayCommandHandler playCommandHandler = new PlayCommandHandler();
     private final SkipCommandHandler skipCommandHandler = new SkipCommandHandler();
+    private final LoopCommandHandler loopCommandHandler = new LoopCommandHandler();
     private final ClearCommandHandler clearCommandHandler = new ClearCommandHandler();
     private final LeaveCommandHandler leaveCommandHandler = new LeaveCommandHandler();
 
@@ -45,6 +44,7 @@ public final class CommandListener extends ListenerAdapter {
         switch (command) {
             case PlayCommand playCommand -> onPlayCommandHandle(playCommand, guild, event);
             case SkipCommand ignored -> skipCommandHandler.onSkipCommand(guild, event);
+            case LoopCommand loopCommand -> onLoopCommandHandle(loopCommand, guild, event);
             case ClearCommand ignored -> clearCommandHandler.onClearCommand(guild, event);
             case LeaveCommand ignored -> leaveCommandHandler.onLeaveCommand(guild, event);
         }
@@ -62,10 +62,28 @@ public final class CommandListener extends ListenerAdapter {
         String requestOptionName = playCommand.getContentOption().name();
         OptionMapping option = event.getOption(requestOptionName);
         if (option == null) {
-            event.reply(NO_REQUEST_TEMPLATE.formatted(requestOptionName, playCommand.getName())).queue();
+            event.reply(NO_PARAMETERS_TEMPLATE.formatted(requestOptionName, playCommand.getName())).queue();
             return;
         }
         playCommandHandler.onPlayCommand(guild, member, option.getAsString(), event);
+    }
+
+    private void onLoopCommandHandle(
+            @Nonnull LoopCommand loopCommand,
+            @Nonnull Guild guild,
+            @Nonnull SlashCommandInteractionEvent event
+    ) {
+        String enableOptionName = loopCommand.getEnableOption().name();
+        OptionMapping option = event.getOption(enableOptionName);
+        if (option == null) {
+            event.reply(NO_PARAMETERS_TEMPLATE.formatted(enableOptionName, loopCommand.getName())).queue();
+            return;
+        }
+        try {
+            loopCommandHandler.onLoopCommand(guild, option.getAsBoolean(), event);
+        } catch (IllegalStateException e) {
+            event.reply(OPTION_MUST_BE_OF_BOOLEAN_TYPE).queue();
+        }
     }
 
     @Nullable
