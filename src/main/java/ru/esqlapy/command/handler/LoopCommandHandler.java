@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import ru.esqlapy.audio.GlobalMusicManager;
 
-public class LoopCommandHandler extends CommandHandler {
+public final class LoopCommandHandler extends CommandHandler {
 
     private static final String THERE_ARE_NO_TRACK_IN_QUEUE = "Sorry, there are no tracks in the queue";
     private static final String LOOP_STATE_FOR_TRACK_TEMPLATE = """
@@ -17,10 +17,12 @@ public class LoopCommandHandler extends CommandHandler {
     private static final String TRACK_LABEL_TEMPLATE = "%s | %s";
     private final GlobalMusicManager globalMusicManager = GlobalMusicManager.getInstance();
 
+    @Nonnull
     private String extractTrackLabel(@Nonnull AudioTrackInfo audioTrackInfo) {
         return TRACK_LABEL_TEMPLATE.formatted(audioTrackInfo.title, audioTrackInfo.author);
     }
 
+    @Nonnull
     private String getEnableStateStringRepresentation(boolean enable) {
         if (enable) {
             return ENABLE_STATE;
