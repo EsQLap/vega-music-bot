@@ -8,6 +8,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,9 +17,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public final class MusicEventAdapter extends AudioEventAdapter {
 
+    private static final Duration WAITING_TIME_DURATION = Duration.ofMinutes(5);
     private final Queue<AudioTrack> queue = new LinkedBlockingQueue<>();
     private final Map<String, Boolean> trackLoopStateMap = new ConcurrentHashMap<>();
     private final AudioPlayer audioPlayer;
+    private LocalDateTime waitingTime = LocalDateTime.now();
 
     public MusicEventAdapter(@Nonnull AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
@@ -62,9 +66,20 @@ public final class MusicEventAdapter extends AudioEventAdapter {
         }
         if (trackLoopStateMap.getOrDefault(track.getInfo().uri, false)) {
             nextTrack(track.makeClone(), true);
-        } else {
-            trackLoopStateMap.remove(track.getInfo().uri);
-            nextTrack();
+            return;
         }
+        trackLoopStateMap.remove(track.getInfo().uri);
+        boolean result = nextTrack();
+        if (!result) {
+            waitingTime = LocalDateTime.now();
+        }
+    }
+
+    public boolean isReadyToDispose() {
+        return queue.isEmpty() && isWaitingTimeout();
+    }
+
+    private boolean isWaitingTimeout() {
+        return Duration.between(waitingTime, LocalDateTime.now()).minus(WAITING_TIME_DURATION).isNegative();
     }
 }
