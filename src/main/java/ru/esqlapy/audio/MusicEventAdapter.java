@@ -17,7 +17,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public final class MusicEventAdapter extends AudioEventAdapter {
 
-    private static final Duration WAITING_TIME_DURATION = Duration.ofMinutes(5);
+    private static final Duration WAITING_TIME_DURATION = Duration.ofMinutes(4);
     private final Queue<AudioTrack> queue = new LinkedBlockingQueue<>();
     private final Map<String, Boolean> trackLoopStateMap = new ConcurrentHashMap<>();
     private final AudioPlayer audioPlayer;
@@ -76,7 +76,7 @@ public final class MusicEventAdapter extends AudioEventAdapter {
     }
 
     public boolean isReadyToDispose() {
-        return queue.isEmpty() && isWaitingTimeout();
+        return audioPlayer.getPlayingTrack() == null && isWaitingTimeout();
     }
 
     private boolean isWaitingTimeout() {
