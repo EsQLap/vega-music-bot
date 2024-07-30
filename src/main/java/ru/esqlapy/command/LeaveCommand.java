@@ -1,6 +1,6 @@
 package ru.esqlapy.command;
 
-public final class LeaveCommand extends Command {
+public final class LeaveCommand extends GuildCommand {
 
     private static final String COMMAND_NAME = "leave";
     private static final String COMMAND_DESCRIPTION = "Leave from the voice channel";
