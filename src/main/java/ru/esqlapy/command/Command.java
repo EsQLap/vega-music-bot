@@ -2,7 +2,7 @@ package ru.esqlapy.command;
 
 import jakarta.annotation.Nonnull;
 
-public sealed abstract class Command permits ClearCommand, LeaveCommand, PlayCommand, SkipCommand {
+public sealed abstract class Command permits PlayCommand, SkipCommand, LoopCommand, ClearCommand, LeaveCommand {
 
     private final String name;
     private final String description;

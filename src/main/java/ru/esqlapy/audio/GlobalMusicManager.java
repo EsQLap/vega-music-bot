@@ -3,9 +3,11 @@ package ru.esqlapy.audio;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import ru.esqlapy.audio.source.YoutubeAudioSourceManagerProvider;
@@ -46,6 +48,12 @@ public final class GlobalMusicManager {
     public boolean skip(@Nonnull Guild guild) {
         GuildMusicManager guildMusicManager = this.getMusicManager(guild);
         return guildMusicManager.skipTrack();
+    }
+
+    @Nullable
+    public AudioTrackInfo loopCurrentTrack(@Nonnull Guild guild, boolean enable) {
+        GuildMusicManager guildMusicManager = this.getMusicManager(guild);
+        return guildMusicManager.setLoopCurrentTrack(enable);
     }
 
     public void clear(@Nonnull Guild guild) {

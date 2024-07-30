@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import ru.esqlapy.audio.GlobalMusicManager;
 
-public class SkipCommandHandler extends CommandHandler {
+public final class SkipCommandHandler extends CommandHandler {
 
     private static final String TRACK_SUCCESSFULLY_SKIPPED = "Track successfully skipped";
     private static final String NO_TRACK_IN_QUEUE = "No more track in the queue";

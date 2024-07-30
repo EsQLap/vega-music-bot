@@ -24,6 +24,7 @@ public final class MusicLoadResultHandler implements AudioLoadResultHandler {
     public MusicLoadResultHandler(@Nonnull GuildMusicManager guildMusicManager, @Nonnull IReplyCallback replyCallback) {
         this.guildMusicManager = guildMusicManager;
         this.replyCallback = replyCallback;
+        replyCallback.deferReply().queue();
     }
 
     @Override
@@ -54,7 +55,7 @@ public final class MusicLoadResultHandler implements AudioLoadResultHandler {
     }
 
     private void sendSuccessReply(@Nonnull AudioTrack track) {
-        replyCallback.reply(SUCCESS_ADDING_TO_QUEUE_TEMPLATE.formatted(
+        replyCallback.getHook().sendMessage(SUCCESS_ADDING_TO_QUEUE_TEMPLATE.formatted(
                 track.getInfo().title,
                 track.getInfo().author
         )).queue();
@@ -66,6 +67,6 @@ public final class MusicLoadResultHandler implements AudioLoadResultHandler {
 
     private void sendExceptionReply(@Nullable String message) {
         String messageToUser = Objects.requireNonNullElse(message, UNKNOWN_EXCEPTION_MESSAGE);
-        replyCallback.reply(messageToUser).queue();
+        replyCallback.getHook().sendMessage(messageToUser).queue();
     }
 }

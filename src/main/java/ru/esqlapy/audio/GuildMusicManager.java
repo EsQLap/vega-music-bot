@@ -3,7 +3,9 @@ package ru.esqlapy.audio;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public final class GuildMusicManager {
 
@@ -23,6 +25,11 @@ public final class GuildMusicManager {
 
     public boolean skipTrack() {
         return musicEventAdapter.nextTrack();
+    }
+
+    @Nullable
+    public AudioTrackInfo setLoopCurrentTrack(boolean enable) {
+        return musicEventAdapter.setLoopCurrentTrack(enable);
     }
 
     public void clearQueue() {
