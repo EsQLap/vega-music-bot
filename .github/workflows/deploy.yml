@@ -33,7 +33,7 @@ jobs:
       - name: Send Jar to Server
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: ./vega-music-bot/build/libs/vega.jar
+          local: ./build/libs/vega.jar
           remote: .${{ vars.SERVER_APP_ROOT }}/vega.jar
           host: ${{ vars.SERVER_URI }}
           username: ${{ vars.SERVER_USER }}
