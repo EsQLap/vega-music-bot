@@ -80,6 +80,6 @@ public final class MusicEventAdapter extends AudioEventAdapter {
     }
 
     private boolean isWaitingTimeout() {
-        return Duration.between(waitingTime, LocalDateTime.now()).minus(WAITING_TIME_DURATION).isNegative();
+        return Duration.between(waitingTime, LocalDateTime.now()).minus(WAITING_TIME_DURATION).isPositive();
     }
 }
