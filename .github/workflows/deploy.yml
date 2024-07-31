@@ -26,7 +26,7 @@ jobs:
       - name: Stop previous jar
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: kill `cat .${{ vars.SERVER_APP_ROOT }}/${{ vars.APP_PID_LOG_FILE }}`
+          command: if pgrep -f vega.jar; then kill `pgrep -f vega.jar`; fi
           host: ${{ vars.SERVER_URI }}
           username: ${{ vars.SERVER_USER }}
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
