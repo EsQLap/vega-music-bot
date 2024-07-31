@@ -1,0 +1,47 @@
+name: Deploy application on Server
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ vars.JAVA_VERSION }}
+          distribution: ${{ vars.JAVA_DISRTIBUTION }}
+          cache: "gradle"
+      - name: Build Jar with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: current
+          arguments: jar
+      - name: Stop previous jar
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: kill `cat .${{ vars.SERVER_APP_ROOT }}/${{ vars.APP_PID_LOG_FILE }}`
+          host: ${{ vars.SERVER_URI }}
+          username: ${{ vars.SERVER_USER }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Send Jar to Server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: ./vega-music-bot/build/libs/vega.jar
+          remote: .${{ vars.SERVER_APP_ROOT }}/vega.jar
+          host: ${{ vars.SERVER_URI }}
+          username: ${{ vars.SERVER_USER }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Run jar
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: nohup java -jar .${{ vars.SERVER_APP_ROOT }}/vega.jar .${{ secrets.DISCORD_BOT_TOKEN }} & echo $! > .${{ vars.SERVER_APP_ROOT }}/vega-pid.log
+          host: ${{ vars.SERVER_URI }}
+          username: ${{ vars.SERVER_USER }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}   
