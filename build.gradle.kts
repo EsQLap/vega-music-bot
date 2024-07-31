@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "ru.esqlapy"
-version = "1.3.0-SNAPSHOT"
+version = "1.4.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -23,6 +23,7 @@ dependencies {
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = "ru.esqlapy.Main"
+        archiveFileName = "vega.jar"
     }
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
