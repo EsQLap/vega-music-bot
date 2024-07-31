@@ -3,7 +3,7 @@ package ru.esqlapy.command.handler;
 import jakarta.annotation.Nonnull;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 
-public class AboutCommandHandler extends CommandHandler {
+public final class AboutCommandHandler extends CommandHandler {
 
     private static final String MESSAGE = """
             Hi, my name is Vega (some users prefer to call me Allfather) and I am a music bot for Discord.
