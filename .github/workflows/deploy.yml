@@ -26,14 +26,14 @@ jobs:
       - name: Stop previous jar
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: kill `cat .${{ vars.SERVER_APP_ROOT }}/${{ vars.APP_PID_LOG_FILE }}`
+          command: if pgrep -f vega.jar; then kill `pgrep -f vega.jar`; fi
           host: ${{ vars.SERVER_URI }}
           username: ${{ vars.SERVER_USER }}
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Send Jar to Server
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: ./vega-music-bot/build/libs/vega.jar
+          local: ./build/libs/vega.jar
           remote: .${{ vars.SERVER_APP_ROOT }}/vega.jar
           host: ${{ vars.SERVER_URI }}
           username: ${{ vars.SERVER_USER }}
@@ -41,7 +41,7 @@ jobs:
       - name: Run jar
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: nohup java -jar .${{ vars.SERVER_APP_ROOT }}/vega.jar .${{ secrets.DISCORD_BOT_TOKEN }} & echo $! > .${{ vars.SERVER_APP_ROOT }}/vega-pid.log
+          command: nohup java -jar .${{ vars.SERVER_APP_ROOT }}/vega.jar ${{ secrets.DISCORD_BOT_TOKEN }} > .${{ vars.SERVER_APP_ROOT }}/vega.out 2> .${{ vars.SERVER_APP_ROOT }}/vega.err &
           host: ${{ vars.SERVER_URI }}
           username: ${{ vars.SERVER_USER }}
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}   
