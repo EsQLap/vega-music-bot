@@ -41,7 +41,7 @@ jobs:
       - name: Run jar
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: nohup java -jar .${{ vars.SERVER_APP_ROOT }}/vega.jar .${{ secrets.DISCORD_BOT_TOKEN }} &
+          command: nohup java -jar .${{ vars.SERVER_APP_ROOT }}/vega.jar .${{ secrets.DISCORD_BOT_TOKEN }} > .${{ vars.SERVER_APP_ROOT }}/vega.out 2> .${{ vars.SERVER_APP_ROOT }}/vega.err &
           host: ${{ vars.SERVER_URI }}
           username: ${{ vars.SERVER_USER }}
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}   
