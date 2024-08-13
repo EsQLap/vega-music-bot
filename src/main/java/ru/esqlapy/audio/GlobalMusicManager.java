@@ -59,11 +59,10 @@ public final class GlobalMusicManager {
 
     @Nonnull
     private GuildMusicManager getMusicManager(@Nonnull Guild guild) {
-        return this.musicManagers.computeIfAbsent(guild.getIdLong(), guildId -> {
-            GuildMusicManager guildMusicManager = new GuildMusicManager(audioPlayerManager, guild.getAudioManager());
-            guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
-            return guildMusicManager;
-        });
+        return this.musicManagers.computeIfAbsent(
+                guild.getIdLong(),
+                guildId -> new GuildMusicManager(audioPlayerManager, guild.getAudioManager())
+        );
     }
 
     public void loadAndPlay(@Nonnull Guild guild, @Nonnull String trackUrl, @Nonnull IReplyCallback replyCallback) {
