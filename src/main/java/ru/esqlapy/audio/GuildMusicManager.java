@@ -12,14 +12,13 @@ public final class GuildMusicManager {
 
     private final MusicEventAdapter musicEventAdapter;
     private final AudioManager audioManager;
-    private final MusicSendHandler sendHandler;
 
     public GuildMusicManager(@Nonnull AudioPlayerManager audioPlayerManager, @Nonnull AudioManager audioManager) {
         AudioPlayer audioPlayer = audioPlayerManager.createPlayer();
         this.musicEventAdapter = new MusicEventAdapter(audioPlayer);
         this.audioManager = audioManager;
         audioPlayer.addListener(musicEventAdapter);
-        this.sendHandler = new MusicSendHandler(audioPlayer);
+        audioManager.setSendingHandler(new MusicSendHandler(audioPlayer));
     }
 
     public void addToQueue(@Nonnull AudioTrack track) {
@@ -39,10 +38,6 @@ public final class GuildMusicManager {
         musicEventAdapter.clear();
     }
 
-    public MusicSendHandler getSendHandler() {
-        return sendHandler;
-    }
-
     public boolean isReadyToDispose() {
         return musicEventAdapter.isReadyToDispose();
     }
@@ -50,5 +45,6 @@ public final class GuildMusicManager {
     public void dispose() {
         clearQueue();
         audioManager.closeAudioConnection();
+        audioManager.setSendingHandler(null);
     }
 }

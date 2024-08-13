@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class GlobalMusicManager {
 
-    private static final long DISPOSE_TASK_DELAY = 5;
+    private static final long DISPOSE_TASK_DELAY = 1;
     private static final TimeUnit DISPOSE_TASK_TIME_UNIT = TimeUnit.MINUTES;
     private static final GlobalMusicManager INSTANCE = new GlobalMusicManager();
     private final Map<Long, GuildMusicManager> musicManagers = new HashMap<>();
@@ -59,11 +59,10 @@ public final class GlobalMusicManager {
 
     @Nonnull
     private GuildMusicManager getMusicManager(@Nonnull Guild guild) {
-        return this.musicManagers.computeIfAbsent(guild.getIdLong(), guildId -> {
-            GuildMusicManager guildMusicManager = new GuildMusicManager(audioPlayerManager, guild.getAudioManager());
-            guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
-            return guildMusicManager;
-        });
+        return this.musicManagers.computeIfAbsent(
+                guild.getIdLong(),
+                guildId -> new GuildMusicManager(audioPlayerManager, guild.getAudioManager())
+        );
     }
 
     public void loadAndPlay(@Nonnull Guild guild, @Nonnull String trackUrl, @Nonnull IReplyCallback replyCallback) {

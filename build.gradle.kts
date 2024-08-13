@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "ru.esqlapy"
-version = "1.4.0-SNAPSHOT"
+version = "1.4.1"
 
 repositories {
     mavenCentral()
@@ -11,10 +11,10 @@ repositories {
 }
 
 dependencies {
-    implementation("net.dv8tion:JDA:5.0.1")
+    implementation("net.dv8tion:JDA:5.0.2")
     implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("dev.arbjerg:lavaplayer:2.2.1")
-    implementation("dev.lavalink.youtube:v2:1.5.0")
+    implementation("dev.lavalink.youtube:v2:1.5.2")
     implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
     testImplementation(platform("org.junit:junit-bom:5.10.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
