@@ -32,7 +32,7 @@ jobs:
           username: ${{ vars.SERVER_USER }}
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Send Jar to Server
-        uses: appleboy/scp-action@release
+        uses: appleboy/scp-action@v0.1.7
         with:
           source: ./build/libs/vega.jar
           target: .${{ vars.SERVER_APP_ROOT }}/vega.jar
