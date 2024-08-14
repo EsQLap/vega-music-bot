@@ -27,7 +27,8 @@ jobs:
       - name: Stop previous jar
         uses: appleboy/ssh-action@v1.0.3
         with:
-          script: result=$(if pgrep -f vega.jar; then kill `pgrep -f vega.jar`; fi)
+          script: if pgrep -f vega.jar; then kill `pgrep -f vega.jar`; fi
+          script_stop: true
           host: ${{ vars.SERVER_URI }}
           username: ${{ vars.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
