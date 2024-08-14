@@ -11,6 +11,7 @@ import ru.esqlapy.command.Command;
 import ru.esqlapy.command.CommandDataFactory;
 import ru.esqlapy.command.CommandProvider;
 import ru.esqlapy.command.listener.CommandListener;
+import ru.esqlapy.event.listener.EventListener;
 import ru.esqlapy.intent.IntentProvider;
 
 import java.util.Collection;
@@ -29,6 +30,7 @@ public final class Bot {
 
     private Bot(String token) {
         this.jda = createJDA(token);
+        jda.addEventListener(new CommandListener(), new EventListener());
         updateCommands();
     }
 
@@ -36,7 +38,6 @@ public final class Bot {
     private JDA createJDA(String token) {
         return JDABuilder.createDefault(token, discordIntents)
                 .enableCache(CacheFlag.VOICE_STATE)
-                .addEventListeners(new CommandListener())
                 .build();
     }
 

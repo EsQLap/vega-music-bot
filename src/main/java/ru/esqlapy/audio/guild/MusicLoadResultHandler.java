@@ -1,4 +1,4 @@
-package ru.esqlapy.audio;
+package ru.esqlapy.audio.guild;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import java.util.List;
 import java.util.Objects;
 
-public final class MusicLoadResultHandler implements AudioLoadResultHandler {
+final class MusicLoadResultHandler implements AudioLoadResultHandler {
 
     private static final String SUCCESS_ADDING_TO_QUEUE_TEMPLATE = "Adding to queue: %s | %s";
     private static final String CANT_FIND_THE_TRACK = "Sorry, I can't find this track";
@@ -21,7 +21,7 @@ public final class MusicLoadResultHandler implements AudioLoadResultHandler {
     private final GuildMusicManager guildMusicManager;
     private final IReplyCallback replyCallback;
 
-    public MusicLoadResultHandler(@Nonnull GuildMusicManager guildMusicManager, @Nonnull IReplyCallback replyCallback) {
+    MusicLoadResultHandler(@Nonnull GuildMusicManager guildMusicManager, @Nonnull IReplyCallback replyCallback) {
         this.guildMusicManager = guildMusicManager;
         this.replyCallback = replyCallback;
         replyCallback.deferReply().queue();
