@@ -24,6 +24,8 @@ jobs:
           gradle-version: current
       - name: Build jar with Gradle
         run: gradle jar
+      - name: Copy jar to root
+        run: cp ./build/libs/vega.jar ./vega.jar
       - name: Stop previous jar
         uses: garygrossgarten/github-action-ssh@release
         with:
@@ -34,12 +36,11 @@ jobs:
       - name: Send jar to Server
         uses: appleboy/scp-action@v0.1.7
         with:
-          source: ./build/libs/vega.jar
+          source: ./vega.jar
           target: .${{ vars.SERVER_APP_ROOT }}/
           host: ${{ vars.SERVER_URI }}
           username: ${{ vars.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          strip_components: 1
       - name: Run jar
         uses: garygrossgarten/github-action-ssh@release
         with:
