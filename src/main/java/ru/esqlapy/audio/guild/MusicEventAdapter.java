@@ -1,4 +1,4 @@
-package ru.esqlapy.audio;
+package ru.esqlapy.audio.guild;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
@@ -15,7 +15,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public final class MusicEventAdapter extends AudioEventAdapter {
+final class MusicEventAdapter extends AudioEventAdapter {
 
     private static final Duration WAITING_TIME_DURATION = Duration.ofMinutes(4);
     private final Queue<AudioTrack> queue = new LinkedBlockingQueue<>();
@@ -23,26 +23,30 @@ public final class MusicEventAdapter extends AudioEventAdapter {
     private final AudioPlayer audioPlayer;
     private LocalDateTime waitingTime = LocalDateTime.now();
 
-    public MusicEventAdapter(@Nonnull AudioPlayer audioPlayer) {
+    MusicEventAdapter(@Nonnull AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
+    }
+
+    private boolean isWaitingTimeout() {
+        return Duration.between(waitingTime, LocalDateTime.now()).minus(WAITING_TIME_DURATION).isPositive();
     }
 
     private boolean nextTrack(AudioTrack audioTrack, boolean noInterrupt) {
         return audioPlayer.startTrack(audioTrack, noInterrupt);
     }
 
-    public void addToQueue(@Nonnull AudioTrack track) {
+    void addToQueue(@Nonnull AudioTrack track) {
         if (!audioPlayer.startTrack(track, true)) {
             queue.offer(track);
         }
     }
 
-    public boolean nextTrack() {
+    boolean nextTrack() {
         return nextTrack(queue.poll(), false);
     }
 
     @Nullable
-    public AudioTrackInfo setLoopCurrentTrack(boolean enable) {
+    AudioTrackInfo setLoopCurrentTrack(boolean enable) {
         AudioTrack audioTrack = audioPlayer.getPlayingTrack();
         if (audioTrack == null) {
             return null;
@@ -51,7 +55,7 @@ public final class MusicEventAdapter extends AudioEventAdapter {
         return audioTrack.getInfo();
     }
 
-    public void clear() {
+    void clear() {
         audioPlayer.destroy();
         queue.clear();
     }
@@ -75,11 +79,7 @@ public final class MusicEventAdapter extends AudioEventAdapter {
         }
     }
 
-    public boolean isReadyToDispose() {
+    boolean isReadyToDispose() {
         return audioPlayer.getPlayingTrack() == null && isWaitingTimeout();
-    }
-
-    private boolean isWaitingTimeout() {
-        return Duration.between(waitingTime, LocalDateTime.now()).minus(WAITING_TIME_DURATION).isPositive();
     }
 }

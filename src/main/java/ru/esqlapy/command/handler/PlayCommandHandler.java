@@ -7,11 +7,10 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
-import ru.esqlapy.audio.GlobalMusicManager;
 
 import java.net.URI;
 
-public final class PlayCommandHandler extends CommandHandler {
+public final class PlayCommandHandler extends GuildCommandHandler {
 
     private static final String YOU_MUST_BE_IN_CHANNEL = "Sorry, I can only work if you are in the voice channel";
     private static final String AUDIO_IS_DISABLED_DUE_TO_INTERNAL_ERROR = """
@@ -21,7 +20,6 @@ public final class PlayCommandHandler extends CommandHandler {
             Sorry, I haven't permission to connect to "%s" chanel
             """;
     private static final String YOUTUBE_SEARCH_TEMPLATE = "ytsearch:%s audio";
-    private final GlobalMusicManager globalMusicManager = GlobalMusicManager.getInstance();
 
     public void onPlayCommand(
             @Nonnull Guild guild,

@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "ru.esqlapy"
-version = "1.4.1"
+version = "1.5.0"
 
 repositories {
     mavenCentral()
@@ -23,6 +23,7 @@ dependencies {
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = "ru.esqlapy.Main"
+        attributes["Implementation-Version"] = version
         archiveFileName = "vega.jar"
     }
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })

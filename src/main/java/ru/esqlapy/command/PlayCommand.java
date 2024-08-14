@@ -9,7 +9,7 @@ public final class PlayCommand extends GuildCommand {
 
     private static final String COMMAND_NAME = "play";
     private static final String COMMAND_DESCRIPTION = "Add track to playback queue";
-    private static final String CONTENT_OPTION_NAME = "content";
+    private static final String CONTENT_OPTION_NAME = "request";
     private static final String CONTENT_OPTION_DESCRIPTION = "What the bot should say";
     private static final boolean CONTENT_OPTION_IS_REQUIRED = true;
     private final CommandOption contentOption;
