@@ -39,6 +39,7 @@ jobs:
           host: ${{ vars.SERVER_URI }}
           username: ${{ vars.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          strip_components: 1
       - name: Run jar
         uses: garygrossgarten/github-action-ssh@release
         with:
