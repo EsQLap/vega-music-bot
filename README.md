@@ -45,7 +45,7 @@ To add the bot to your **Discord-channel**, follow [this link][discord-bot-invit
 
 ## 👩🏻‍💻 Implement self-hosted version
 
-1. Create your application by using [step-by-step guide][jda-user-guide-link] from [JDA][jda-official-repository] command;
+1. Create your application by using [step-by-step guide][jda-user-guide-link] from [JDA][jda-official-repository] team;
 2. Download latest version of JDK (Java Development Kit) from [official site][jdk-download-official];
 3. Download latest release from [releases page][releases-link];
 4. Run application by using the following command in command line:
