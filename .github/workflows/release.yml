@@ -38,6 +38,6 @@ jobs:
         with:
           body: ${{ github.event.head_commit.message }}
           prerelease: true
-          tag_name: ${{ env.JAR_VERSION }}
+          tag_name: ${{ env.JAR_VERSION }}-RC
           files: |
             ${{ env.APPLICATION_JAR_FOLDER }}${{ env.APPLICATION_JAR_NAME }}-${{ env.JAR_VERSION }}.jar
