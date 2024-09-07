@@ -33,7 +33,7 @@ jobs:
       - name: Get jar version
         run: echo "JAR_VERSION=$(unzip -p ${{ env.APPLICATION_JAR_FOLDER }}${{ env.APPLICATION_JAR_NAME }}.jar META-INF/MANIFEST.MF | grep 'Implementation-Version' | cut -d':' -f2 | tr -d "[:space:]")" >> $GITHUB_ENV
       - name: Create Release File
-        run: cp ${{ env.APPLICATION_JAR_FOLDER }}${{ env.APPLICATION_JAR_NAME }} ${{ env.APPLICATION_JAR_FOLDER }}${{ env.APPLICATION_JAR_NAME }}-${{ env.JAR_VERSION }}.jar
+        run: cp ${{ env.APPLICATION_JAR_FOLDER }}${{ env.APPLICATION_JAR_NAME }}.jar ${{ env.APPLICATION_JAR_FOLDER }}${{ env.APPLICATION_JAR_NAME }}-${{ env.JAR_VERSION }}.jar
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
