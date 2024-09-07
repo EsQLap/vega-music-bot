@@ -10,6 +10,7 @@
 [twitch-link]: https://www.twitch.tv/
 [jda-official-repository]: https://github.com/discord-jda/JDA
 [jda-user-guide-link]: https://jda.wiki/using-jda/getting-started/#creating-a-discord-bot
+[jdk-download-official]: https://www.oracle.com/java/technologies/downloads/
 
 [![release-shield][]][releases-link]
 [![discord-shield][]][discord-bot-invite-link]
@@ -45,11 +46,14 @@ To add the bot to your **Discord-channel**, follow [this link][discord-bot-invit
 ## 👩🏻‍💻 Implement self-hosted version
 
 1. Create your application by using [step-by-step guide][jda-user-guide-link] from [JDA][jda-official-repository] command;
-2. Download latest release from [releases page][releases-link];
-3. Run application by using the following command in command line:
+2. Download latest version of JDK (Java Development Kit) from [official site][jdk-download-official];
+3. Download latest release from [releases page][releases-link];
+4. Run application by using the following command in command line:
+
 ```
 java -jar vega-$VERSION.jar $YOUR_BOT_TOKEN
 ```
+
 > [!IMPORTANT]
 > "\$VERSION" and "\$YOUR_BOT_TOKEN" are variables, the first one is identified with the version of
 > the downloaded application from [releases page][releases-link], the second one is the bot token in your application,
