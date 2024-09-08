@@ -39,16 +39,16 @@ terms of use).
 3. [Bandcamp][bandcamp-link] (link only);
 4. [Twitch][twitch-link] streams (link only).
 
-## 📨 Add Vega to your chanel
+## 📨 Add Vega to your channel
 
 To add the bot to your **Discord-channel**, follow [this link][discord-bot-invite-link].
 
 ## 👩🏻‍💻 Implement self-hosted version
 
-1. Create your application by using [step-by-step guide][jda-user-guide-link] from [JDA][jda-official-repository] team;
-2. Download latest version of JDK (Java Development Kit) from [official site][jdk-download-official];
-3. Download latest release from [releases page][releases-link];
-4. Run application by using the following command in command line:
+1. Create your application by using [step-by-step guide][jda-user-guide-link] from the [JDA][jda-official-repository] team;
+2. Download latest version of JDK (Java Development Kit) from the [official site][jdk-download-official];
+3. Download latest release from the [releases page][releases-link];
+4. Run application by using the following command in the command line:
 
 ```
 java -jar vega-$VERSION.jar $YOUR_BOT_TOKEN
