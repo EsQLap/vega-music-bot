@@ -1,5 +1,8 @@
 package ru.esqlapy.command;
 
+/**
+ * A {@link GlobalCommand} that the user uses to request basic information about the bot.
+ */
 public final class AboutCommand extends GlobalCommand {
 
     private static final String COMMAND_NAME = "about";

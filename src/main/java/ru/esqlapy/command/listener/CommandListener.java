@@ -12,17 +12,36 @@ import ru.esqlapy.command.handler.*;
 
 import java.util.Collection;
 
+/**
+ * Listener for commands related to the Discord-bot.
+ */
 public final class CommandListener extends ListenerAdapter {
 
+    /**
+     * A response template for a situation when the bot cannot find the required option in the received command.
+     */
     private static final String NO_PARAMETERS_TEMPLATE = """
             Sorry, I can't find the following parameters: "%s"
             Please make sure you have filled in all required fields correctly and send the command "%s" again
             """;
+    /**
+     * A response template for the situation when the bot receives a command with an option that must be of
+     * {@link net.dv8tion.jda.api.interactions.commands.OptionType#BOOLEAN } type.
+     */
     private static final String OPTION_MUST_BE_OF_BOOLEAN_TYPE = "Option must be of type \"boolean\"";
+    /**
+     * A response template for a situation when a bot receives a command that it can only execute in a Discord guild.
+     */
     private static final String COMMAND_WORK_ONLY_IN_CHANNEL_TEMPLATE = """
             Sorry, the "%s" command work only in channel
             """;
+    /**
+     * A response template for the situation when the bot receives an unknown command.
+     */
     private static final String COMMAND_UNKNOWN_TEMPLATE = "Sorry, I don't know the \"%s\" command";
+    /**
+     * Collection of commands used in the system.
+     */
     private final Collection<Command> systemCommands = CommandProvider.getInstance().getSystemCommands();
     private final AboutCommandHandler aboutCommandHandler = new AboutCommandHandler();
     private final PlayCommandHandler playCommandHandler = new PlayCommandHandler();
@@ -31,6 +50,12 @@ public final class CommandListener extends ListenerAdapter {
     private final ClearCommandHandler clearCommandHandler = new ClearCommandHandler();
     private final LeaveCommandHandler leaveCommandHandler = new LeaveCommandHandler();
 
+    /**
+     * Called when a slash command is sent to the bot.
+     *
+     * @param event
+     *         an event with extra data that carries information related to sending a slash command
+     */
     @Override
     public void onSlashCommandInteraction(@Nonnull SlashCommandInteractionEvent event) {
         String commandName = event.getName();
@@ -45,12 +70,28 @@ public final class CommandListener extends ListenerAdapter {
         }
     }
 
+    /**
+     * Called when a command sent by the user is {@link GlobalCommand}.
+     *
+     * @param globalCommand
+     *         information about the received command
+     * @param event
+     *         an event with extra data that carries information related to sending a slash command
+     */
     private void onGlobalCommand(@Nonnull GlobalCommand globalCommand, @Nonnull SlashCommandInteractionEvent event) {
         switch (globalCommand) {
             case AboutCommand ignored -> aboutCommandHandler.onAboutCommand(event);
         }
     }
 
+    /**
+     * Called when a command sent by the user is {@link GuildCommand}.
+     *
+     * @param guildCommand
+     *         information about the received command
+     * @param event
+     *         an event with extra data that carries information related to sending a slash command
+     */
     private void onGuildCommand(@Nonnull GuildCommand guildCommand, @Nonnull SlashCommandInteractionEvent event) {
         Guild guild = event.getGuild();
         if (guild == null) {
@@ -66,6 +107,16 @@ public final class CommandListener extends ListenerAdapter {
         }
     }
 
+    /**
+     * Called when the user sends a {@link PlayCommand}
+     *
+     * @param playCommand
+     *         information about the received command
+     * @param guild
+     *         information about the guild from which the command was sent
+     * @param event
+     *         an event with extra data that carries information related to sending a slash command
+     */
     private void onPlayCommandHandle(
             @Nonnull PlayCommand playCommand,
             @Nonnull Guild guild,
@@ -84,6 +135,16 @@ public final class CommandListener extends ListenerAdapter {
         playCommandHandler.onPlayCommand(guild, member, option.getAsString(), event);
     }
 
+    /**
+     * Called when the user sends a {@link LoopCommand}
+     *
+     * @param loopCommand
+     *         information about the received command
+     * @param guild
+     *         information about the guild from which the command was sent
+     * @param event
+     *         an event with extra data that carries information related to sending a slash command
+     */
     private void onLoopCommandHandle(
             @Nonnull LoopCommand loopCommand,
             @Nonnull Guild guild,
@@ -102,6 +163,13 @@ public final class CommandListener extends ListenerAdapter {
         }
     }
 
+    /**
+     * Searches for a Discord command in {@link CommandListener#systemCommands} by its name.
+     *
+     * @param name
+     *         name of the command looking for
+     * @return command with matching name, {@code null} if command not found
+     */
     @Nullable
     private Command findCommandByName(@Nonnull String name) {
         for (Command command : systemCommands) {
