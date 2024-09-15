@@ -1,5 +1,8 @@
 package ru.esqlapy.command;
 
+/**
+ * A {@link GuildCommand} that the user uses to clear the queue of audio tracks.
+ */
 public final class ClearCommand extends GuildCommand {
 
     private static final String COMMAND_NAME = "clear";
