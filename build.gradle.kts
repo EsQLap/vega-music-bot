@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "ru.esqlapy"
-version = "1.6.1"
+version = "1.6.2"
 
 repositories {
     mavenCentral()
@@ -11,10 +11,10 @@ repositories {
 }
 
 dependencies {
-    implementation("net.dv8tion:JDA:5.1.0")
+    implementation("net.dv8tion:JDA:5.1.1")
     implementation("ch.qos.logback:logback-classic:1.5.8")
-    implementation("dev.arbjerg:lavaplayer:2.2.1")
-    implementation("dev.lavalink.youtube:v2:1.7.2")
+    implementation("dev.arbjerg:lavaplayer:2.2.2")
+    implementation("dev.lavalink.youtube:v2:1.8.3")
     // need only because dev.arbjerg:lavaplayer:2.2.1 implement commons-codec:commons-codec:1.11 with
     // vulnerability Cxeb68d52e-5509
     implementation("commons-codec:commons-codec:1.17.1")

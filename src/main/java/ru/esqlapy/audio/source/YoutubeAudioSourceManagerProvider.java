@@ -1,6 +1,7 @@
 package ru.esqlapy.audio.source;
 
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import dev.lavalink.youtube.clients.AndroidMusicWithThumbnail;
 import dev.lavalink.youtube.clients.AndroidTestsuiteWithThumbnail;
 import dev.lavalink.youtube.clients.MusicWithThumbnail;
 import dev.lavalink.youtube.clients.WebWithThumbnail;
@@ -22,7 +23,7 @@ public final class YoutubeAudioSourceManagerProvider {
             true,
             new MusicWithThumbnail(),
             new WebWithThumbnail(),
-            new AndroidTestsuiteWithThumbnail());
+            new AndroidMusicWithThumbnail());
 
     private YoutubeAudioSourceManagerProvider() {
     }
